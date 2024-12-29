@@ -1,0 +1,5 @@
+w and s can scale selected image
+arrow keys to move image
+
+save card is in output folder
+card set in thsc folder and output card image is in images folder
