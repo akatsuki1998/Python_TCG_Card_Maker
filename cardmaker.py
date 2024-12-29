@@ -178,7 +178,6 @@ class OperateWindows():
             cardData.cardInfo.save_card()
         else:
             messagebox.showinfo("錯誤", "不可為空值，不可出現以下符號(@#$%^&*()+=[]{}|;:,.<>?)")
-
     def select_img(self):
         try:
             file_path = filedialog.askopenfilename()
