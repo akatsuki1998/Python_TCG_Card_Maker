@@ -3,6 +3,7 @@ import pygame
 import os
 import ast
 from tkinter import messagebox
+from tkinter import filedialog
 
 power = 10
 name = ''
@@ -17,6 +18,9 @@ cardImg = None
 card_screen = None
 cwidth = 0
 cheight = 0
+cscale = 0.365
+posx = 20
+posy = 60
 class cardInfo:
     @staticmethod
     def set_card_image(file_path):
@@ -34,12 +38,19 @@ class cardInfo:
     def save_card():
         global card_screen
         try:
-            img_save_Path = './output/images/'
-            if not os.path.exists(img_save_Path):
-                os.makedirs(img_save_Path)
-            txt_save_path = './output/thsc/'
-            if not os.path.exists(txt_save_path):
-                os.makedirs(txt_save_path)
+            save_path = filedialog.askdirectory(title="選擇圖片儲存資料夾")
+            if save_path:
+                # 確保路徑以斜線結尾
+                if not save_path.endswith(os.path.sep):
+                    save_path += os.path.sep
+
+                img_save_Path = save_path + '/images/'
+                txt_save_path = save_path + '/thsc/'
+                if not os.path.exists(img_save_Path) and not os.path.exists(txt_save_path):
+                    os.makedirs(img_save_Path)
+                    os.makedirs(txt_save_path)
+            else:
+                messagebox.showerror("錯誤", "請選擇儲存資料夾")
 
             # Save the image
             pygame.image.save(card_screen, os.path.join(img_save_Path, f"{name}.png"))
@@ -56,10 +67,13 @@ class cardInfo:
                 f.write(f"effect_items : {cardInfo.effect_items_to_str(effect_items)}\n")
                 f.write(f"cwidth :{cwidth}\n")
                 f.write(f"cheight :{cheight}\n")
+                f.write(f'cscale : {cscale}\n')
+                f.write(f'posx : {posx}\n')
+                f.write(f'posy : {posy}\n')
 
             messagebox.showinfo("保存成功", "數據已成功保存！")
         except Exception as e:
-            messagebox.showinfo("保存失敗", f"發生錯誤: {str(e)}")
+            messagebox.showerror("保存失敗", f"發生錯誤: {str(e)}")
 
     @staticmethod
     def process_file(file_path):
@@ -70,10 +84,10 @@ class cardInfo:
             except UnicodeDecodeError:
                 messagebox.showinfo("錯誤", "無法使用UTF-8編碼讀取文件，請確認文件是否為文本文件或使用其他編碼。。")
         else:
-            messagebox.showinfo("錯誤", "你選擇的文件不是THSC格式。")
+            messagebox.showerror("錯誤", "你選擇的文件不是THSC格式。")
     @staticmethod
     def read_data_from_file(file):
-        global name, power, level, card_type, feature, cardClass, imgSrc, effect_items, cwidth, cheight
+        global name, power, level, card_type, feature, cardClass, imgSrc, effect_items, cwidth, cheight, cscale, posy, posx
         for line in file:
             line = line.strip()
             if ':' in line:
@@ -81,7 +95,6 @@ class cardInfo:
                 key = key.strip()
                 value = value.strip()
 
-                # 根據鍵名將值分配給對應的變數
                 if key == "name":
                     name = value
                 elif key == "power":
@@ -104,8 +117,14 @@ class cardInfo:
                     cwidth = float(value)
                 elif key == "cheight":
                     cheight = float(value)
+                elif key == "cscale":
+                    cscale = float(value)
+                elif key == "posy":
+                    posy = float(value)
+                elif key == "posx":
+                    posx = float(value)
                 else:
-                    messagebox.showinfo("錯誤", f"未識別的鍵: {key}")
+                    messagebox.showerror("錯誤", f"未識別的鍵: {key}")
 
     @staticmethod
     def effect_items_to_str(effect_items):

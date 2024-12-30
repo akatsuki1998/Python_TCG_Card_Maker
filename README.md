@@ -1,10 +1,37 @@
-# TCG_Card_Maker
-A TCG Card Maker based on python.
 
-A easy tool to make your own TCG card. Using pygame and tkinter to make this tool.
+# MY_TCG_Card_Maker (自製TCG卡片生成器)
 
-you can get exe and detailed on : https://jingshing.itch.io/tcg-card-maker
 
-一個TCG卡牌的製作器。之後想做一個卡牌遊戲，所以超前部屬了，如果有喜歡的歡迎拿去用。也很歡迎和我介紹你所完成的作品。
+## Introduction
 
-可以在這拿到我打包好的版本：https://jingshing.itch.io/tcg-card-maker
+自製的TCG遊戲的卡片生成器。
+
+遊戲規則請參考:路徑
+
+本工具允許使用者可以創造、存檔、讀取所設計的卡片。
+
+
+
+## Requirements
+
+- python 3.10
+- pygame 2.5.2
+- tkinter 3.1.2
+
+## How to Use
+
+- 執行cardmaker.py
+- 依照以下圖片所示
+- 圖片
+- 1.輸入卡片名稱
+- 2.選擇卡片戰力(註:若非從者卡則不需選擇)
+- 3.選擇等級
+- 4.輸入卡片特徵(最多2種)
+- 5.選擇卡片種類
+- 6.選擇卡片職業
+- 7.新增卡片效果(最多4種)
+- 8.儲存卡片圖片(.png)以及卡片資料(.thsc)
+- 9.選擇卡片的圖片
+- 10.讀取舊檔(.thsc)
+
+

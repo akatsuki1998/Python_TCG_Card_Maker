@@ -9,6 +9,7 @@ from tkinter import messagebox
 import ComboboxTip as cbTip
 import cardData
 import cardImgWindow
+import os
 class OperateWindows():
     def __init__(self, master):
         self.master = master
@@ -177,16 +178,27 @@ class OperateWindows():
         if cardData.name != "" and not any(char in disallowed_chars for char in cardData.name):
             cardData.cardInfo.save_card()
         else:
-            messagebox.showinfo("錯誤", "不可為空值，不可出現以下符號(@#$%^&*()+=[]{}|;:,.<>?)")
+            messagebox.showerror("錯誤", "不可為空值，不可出現以下符號(@#$%^&*()+=[]{}|;:,.<>?)")
     def select_img(self):
         try:
             file_path = filedialog.askopenfilename()
-            cardData.imgSrc = file_path
-            cardData.cardInfo.set_card_image(file_path)
-            cardData.isimg = True
+            # 獲取副檔名並轉換為小寫以便比較
+            file_extension = os.path.splitext(file_path)[1].lower()
+
+            # 常見的圖片副檔名
+            image_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif', '.webp')
+
+            if file_extension in image_extensions:
+                cardData.imgSrc = file_path
+                cardData.cardInfo.set_card_image(file_path)
+                cardData.isimg = True
+            else:
+                messagebox.showerror("存取圖片失敗", "發生錯誤: 選取的資料不是圖片檔案" )
+
+
         except Exception as e:
             cardData.isimg = False
-            messagebox.showinfo("存取圖片失敗", "發生錯誤: " + str(e))
+            messagebox.showerror("存取圖片失敗", "發生錯誤: " + str(e))
     def select_thsc(self):
         try:
             # 打開文件選擇對話框
@@ -207,7 +219,7 @@ class OperateWindows():
                 cardData.cardInfo.process_file(file_path)
                 self.set_card_value()
         except Exception as e:
-            messagebox.showinfo("卡片效果讀取錯誤", "發生錯誤 :" + str(e))
+            messagebox.showerror("卡片效果讀取錯誤", "發生錯誤 :" + str(e))
     def get_name(self, event):
         value = event.widget.get()
         try:
